@@ -1,34 +1,34 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+//Hooks
+import { useEffect, useState } from "react";
+import { useStore } from "./store"
 
-function App() {
-  const [count, setCount] = useState(0)
+//UI
+import { Route, Routes } from "react-router"
+import { HomeScreen, NotFoundScreen, SlashScreen } from "./screens"
+
+const App = () => {
+
+  //States
+  const [isAppReady, SetIsAppReady] = useState<boolean>(false);
+
+  //Stores
+  const isStoreReady = useStore((state) => state.isStoreReady);
+
+  useEffect(() => {
+    console.log(isAppReady, isStoreReady);
+  },[isAppReady, isStoreReady])
+
+  if (!isAppReady || !isStoreReady) return (
+    <SlashScreen
+      onFinish={() => SetIsAppReady(true)}
+    />
+  )
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <Routes>
+      <Route path="/" element={<HomeScreen />} />
+      <Route path="*" element={<NotFoundScreen />} />
+    </Routes>
   )
 }
 
