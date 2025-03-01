@@ -8,5 +8,4 @@ const { data, error } = EnvSchema.safeParse(import.meta.env);
 
 if (error) throw new Error(ConfigMessages.Environment);
 
-
 export const EnvValue = data;
