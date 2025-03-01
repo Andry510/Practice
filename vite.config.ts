@@ -13,10 +13,4 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
-
-  server: {
-    port: 4510,    
-    cors: true,
-  },
-
 })
