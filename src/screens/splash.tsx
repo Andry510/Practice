@@ -11,7 +11,7 @@ interface Props {
 export const SlashScreen = ({ onFinish }: Props) => {
 
     return (
-        <div>
+        <div className="h-screen w-full flex flex-col justify-center items-center bg-gray-900">
             <Lottie
                 autoPlay
                 loop={false}
