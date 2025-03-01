@@ -47,9 +47,9 @@ export const HomeScreen = () => {
                 </h1>
                 <Button
                     variant="contained"
-                    onClick={() => console.log('hello word')}
-                    startIcon={<FaPlus className="h-4 w-4" />}
                     className="w-full sm:w-auto"
+                    onClick={() => navigate('create')}
+                    startIcon={<FaPlus className="h-4 w-4" />}
                 >
                     Nuevo Producto
                 </Button>

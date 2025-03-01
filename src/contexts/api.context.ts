@@ -17,7 +17,13 @@ import { ErrorMessage, SuccessMessage } from "../messages";
 
 //Interfaces
 import { IApiContext } from "../interfaces/contexts";
-import { ILoginResponse, IProductsResponse, IUpdateProductResponse } from "../interfaces/api";
+import { IProduct } from "../interfaces/products";
+import {
+    ILoginResponse,
+    IProductsResponse,
+    IUpdateProductResponse,
+    ICreateProductResponse,
+} from "../interfaces/api";
 
 export const useApi = create<IApiContext>(
     (set, get) => (
@@ -68,13 +74,25 @@ export const useApi = create<IApiContext>(
                 } catch (error) {
                     toast.error(ErrorMessage.products)
                 }
-
             },
 
-            handleCreateProduct: async () => {
+            handleCreateProduct: async (data) => {
                 try {
+                    const response: AxiosResponse<ICreateProductResponse> = await api.post(
+                        apiRouters.create,
+                        data,
+                    )
 
+                    const product: IProduct = {
+                        ...response.data,
+                        images: []
+                    }
+
+                    set({ products: [...get().products, product] });
+
+                    toast.success(SuccessMessage.create);
                 } catch (error) {
+                    toast.error(ErrorMessage.create)
                 }
             },
             handleUpdateProduct: async (data) => {

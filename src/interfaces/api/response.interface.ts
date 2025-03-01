@@ -15,5 +15,8 @@ export interface IProductsResponse {
     products: IProduct[]
 }
 
+export interface ICreateProductResponse extends
+    Omit<IProduct, 'images'> { }
+
 export interface IUpdateProductResponse extends
     Omit<IProduct, 'images'> { }

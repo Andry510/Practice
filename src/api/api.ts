@@ -61,8 +61,6 @@ api.interceptors.response.use(
                 return api(errorResponse);
             } catch (error) {
                 clearData();
-                console.log(error);
-
             }
         }
 

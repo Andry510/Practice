@@ -12,11 +12,11 @@ interface Props {
 export const ImagesComponent = ({ url, iconName }: Props) => {
   const [isError, setIsError] = useState<boolean>(false);
 
-  if (!url || url.length === 0 || isError) {
+  if (!url || url.length === 0 || url.length < 24 || isError) {
     const Icon = icons[iconName];
     return (
       <div className="w-full h-full flex justify-center items-center">
-        <Icon size={50} />
+        <Icon size={150} />
       </div>
     );
   }
