@@ -5,10 +5,14 @@ import { createJSONStorage, persist, StateStorage } from "zustand/middleware";
 //Config
 import { EnvValue } from "../config";
 
-//Interfaces
-import { IUseStore } from "../interfaces/store";
+//Utils
 import { decryptData, encryptData } from "../utils";
 
+//Json
+import { profileDefault } from "../json";
+
+//Interfaces
+import { IUseStore } from "../interfaces/store";
 
 const CryptoStorage: StateStorage = {
     getItem: (key: string): string | null => {
@@ -43,20 +47,55 @@ const CryptoStorage: StateStorage = {
 export const useStore = create<IUseStore>()(persist(
     (set) => (
         {
-            isStoreReady: false,
+            //Config            
             isLogged: false,
-            profile: 'hola',
+            isAppReady: false,
+            isStoreReady: false,
+
+            //Variants            
+            accessToken: undefined,
+            refreshToken: undefined,
+            profile: profileDefault,
+
 
             setIsStoreReady: (isStoreReady: boolean) => set({ isStoreReady }),
+            setIsAppReady: (isAppReady: boolean) => set({ isAppReady }),
             setIsLogged: (isLogged: boolean) => set({ isLogged }),
+            setLogin: (data) => set(
+                {
+                    isLogged: true,
+                    profile: data.profile,
+                    accessToken: data.accessToken,
+                    refreshToken: data.refreshToken,
+                }
+            ),
+
+            setCredentials: (data) => set(
+                {
+                    accessToken: data.accessToken,
+                    refreshToken: data.refreshToken,
+                }
+            ),
+
+            //Deletes
+            clearData: () => set(
+                {
+                    isLogged: false,
+                    accessToken: undefined,
+                    refreshToken: undefined,
+                    profile: profileDefault,
+                }
+            ),
         }
     ),
     {
         name: EnvValue.VITE_STORE_NAME,
         storage: createJSONStorage(() => CryptoStorage),
         partialize: (state) => ({
-            isLogged: state.isLogged,
             profile: state.profile,
+            isLogged: state.isLogged,
+            accessToken: state.accessToken,
+            refreshToken: state.refreshToken,
         }),
         onRehydrateStorage: () => (state, error) => {
             if (error) return;
