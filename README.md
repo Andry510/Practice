@@ -26,7 +26,7 @@ VITE_STORE_NAME
 VITE_KEY_CRYPTO
 ```
 
-5-Corre el servidor
+5- Corre el servidor
 
 ```bash
 npm run dev
